@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import ViewForm from "./pages/ViewForm";
 import { useAuth } from "./contexts/AuthContext";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -42,6 +43,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route path="/form/:formId" element={<ViewForm />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

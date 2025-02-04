@@ -18,6 +18,7 @@ export const FormBuilder = () => {
   const [description, setDescription] = useState("");
   const [questions, setQuestions] = useState<Question[]>([]);
   const { toast } = useToast();
+  const [formId, setFormId] = useState<string>("");
 
   const addQuestion = (type: QuestionType) => {
     setQuestions([...questions, { type, id: crypto.randomUUID(), required: false }]);
@@ -43,6 +44,10 @@ export const FormBuilder = () => {
       return;
     }
 
+    // Mock saving the form - would be replaced with actual API call
+    const newFormId = crypto.randomUUID();
+    setFormId(newFormId);
+
     toast({
       title: "Form Saved",
       description: "Your form has been saved successfully.",
@@ -50,6 +55,18 @@ export const FormBuilder = () => {
   };
 
   const handleShare = () => {
+    if (!formId) {
+      toast({
+        title: "Save Form First",
+        description: "Please save your form before generating a sharing link.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const shareUrl = `${window.location.origin}/form/${formId}`;
+    navigator.clipboard.writeText(shareUrl);
+
     toast({
       title: "Share Link Generated",
       description: "Form sharing link has been copied to clipboard.",
