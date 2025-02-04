@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
@@ -18,19 +18,34 @@ const Auth = () => {
     try {
       if (isLogin) {
         await signIn(email, password);
+        toast({
+          title: 'Welcome back!',
+          description: 'You have been logged in.',
+        });
+        navigate('/');
       } else {
         await signUp(email, password);
+        toast({
+          title: 'Account created successfully!',
+          description: 'Please check your email to verify your account before logging in.',
+          duration: 6000,
+        });
+        setIsLogin(true); // Switch to login view after successful signup
       }
-      toast({
-        title: isLogin ? 'Welcome back!' : 'Account created successfully!',
-        description: isLogin ? 'You have been logged in.' : 'Please check your email to verify your account.',
-      });
-      navigate('/');
-    } catch (error) {
+    } catch (error: any) {
+      let errorMessage = 'An error occurred';
+      
+      if (error.message.includes('email_not_confirmed')) {
+        errorMessage = 'Please verify your email before logging in. Check your inbox for the verification link.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: 'Error',
-        description: error instanceof Error ? error.message : 'An error occurred',
+        description: errorMessage,
         variant: 'destructive',
+        duration: 6000,
       });
     }
   };
