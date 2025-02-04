@@ -9,9 +9,10 @@ interface QuestionTypesProps {
 
 export const QuestionTypes = ({ onAdd }: QuestionTypesProps) => {
   return (
-    <div className="flex gap-4 p-4 bg-gray-50 rounded-lg animate-fade-in">
+    <div className="flex gap-2 animate-fade-in">
       <Button
         variant="outline"
+        size="sm"
         className="flex items-center gap-2"
         onClick={() => onAdd("text")}
       >
@@ -20,6 +21,7 @@ export const QuestionTypes = ({ onAdd }: QuestionTypesProps) => {
       </Button>
       <Button
         variant="outline"
+        size="sm"
         className="flex items-center gap-2"
         onClick={() => onAdd("multiple")}
       >
@@ -28,6 +30,7 @@ export const QuestionTypes = ({ onAdd }: QuestionTypesProps) => {
       </Button>
       <Button
         variant="outline"
+        size="sm"
         className="flex items-center gap-2"
         onClick={() => onAdd("checkbox")}
       >
